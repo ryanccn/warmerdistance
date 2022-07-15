@@ -1,0 +1,9 @@
+.DS_Store
+
+__pycache__/
+.vscode/
+
+*.jpg
+*.png
+*.webp
+*.avif
