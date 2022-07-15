@@ -7,8 +7,6 @@ import torch
 import cv2
 import numpy as np
 
-from utilities import letterbox_image
-
 import logging
 import math
 
