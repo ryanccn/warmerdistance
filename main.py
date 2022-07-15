@@ -24,16 +24,6 @@ logging.getLogger("yolov5").setLevel(logging.WARNING)
 model = torch.hub.load("ultralytics/yolov5", "yolov5s", verbose=False)
 model.classes = [0]
 
-if torch.cuda.is_available():
-    print(f"{log_prefix} Using CUDA", fg="green")
-    model.to(torch.device("cuda"))
-# elif torch.backends.mps.is_available():
-#     print(f"{log_prefix} Warning: using MPS on macOS, may encounter bugs", fg="yellow")
-#     model.to(torch.device("mps"))
-else:
-    print(log_prefix + typer.style(" Using CPU", fg="yellow"))
-    model.to(torch.device("cpu"))
-
 
 def hex_to_bgra(hex_string):
     rgb = ImageColor.getrgb(hex_string)
