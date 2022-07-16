@@ -162,7 +162,7 @@ def live():
     cap = cv2.VideoCapture(0)
     if not cap.isOpened():
         print(f"> Cannot open camera", fg="red", bold=True, err=True)
-        exit(1)
+        raise typer.Exit(code=1)
 
     while True:
         ret, frame = cap.read()
