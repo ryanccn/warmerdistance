@@ -92,6 +92,10 @@ app = typer.Typer()
 
 @app.command()
 def image(input_file: str, output_file: str):
+    """
+    Process an image and output
+    """
+
     print(f"{log_prefix} Processing")
 
     frame = cv2.imread(input_file)
@@ -108,13 +112,17 @@ def image(input_file: str, output_file: str):
 
 @app.command()
 def video(input_file: str, output_file: str):
+    """
+    Process a static video and output
+    """
+
     video_capture = cv2.VideoCapture(input_file)
     target_fps = int(video_capture.get(cv2.CAP_PROP_FPS))
     frames_total = int(video_capture.get(cv2.CAP_PROP_FRAME_COUNT))
 
     video_writer = None
 
-    print(f"{log_prefix} Doing good stuff")
+    print(f"{log_prefix} Processing video")
 
     with typer.progressbar(length=frames_total, color=True) as progress:
         while video_capture.isOpened():
@@ -143,6 +151,39 @@ def video(input_file: str, output_file: str):
     video_writer.release()
 
     print("> Done!", bold=True, fg="green")
+
+
+@app.command()
+def live():
+    """
+    Capture live streams and show them on screen
+    """
+
+    cap = cv2.VideoCapture(0)
+    if not cap.isOpened():
+        print(f"> Cannot open camera", fg="red", bold=True, err=True)
+        exit(1)
+
+    while True:
+        ret, frame = cap.read()
+
+        if not ret:
+            print(
+                f"> Can't receive frame (stream end?). Exiting ...",
+                fg="red",
+                bold=True,
+                err=True,
+            )
+            break
+
+        proc_frame = process_frame(frame)
+        cv2.imshow("frame", proc_frame)
+
+        if cv2.waitKey(1) == ord("q"):
+            break
+
+    cap.release()
+    cv2.destroyAllWindows()
 
 
 if __name__ == "__main__":
