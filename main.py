@@ -7,6 +7,7 @@ import torch
 import cv2
 import numpy as np
 
+from time import time
 import logging
 import math
 
@@ -18,8 +19,8 @@ INPUT_HEIGHT = 640
 log_prefix = typer.style(">", dim=True)
 
 print(f"{log_prefix} Loading models")
-logging.getLogger("yolov5").setLevel(logging.WARNING)
-model = torch.hub.load("ultralytics/yolov5", "yolov5s", verbose=False)
+logging.getLogger("yolov5").setLevel(logging.ERROR)
+model = torch.hub.load("ultralytics/yolov5", "yolov5s")
 model.classes = [0]
 
 
@@ -94,12 +95,15 @@ def image(input_file: str, output_file: str):
     print(f"{log_prefix} Processing")
 
     frame = cv2.imread(input_file)
+
+    start_time = time()
     processed_frame = process_frame(frame)
+    end_time = time()
 
     print(f"{log_prefix} Exporting to {typer.style(output_file, bold=True)}")
     cv2.imwrite(output_file, processed_frame)
 
-    print("> Done!", bold=True, fg="green")
+    print(f"> Done! Took {round(end_time - start_time, 2)}s", bold=True, fg="green")
 
 
 @app.command()
