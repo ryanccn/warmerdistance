@@ -13,9 +13,6 @@ import math
 
 print = typer.secho
 
-INPUT_WIDTH = 640
-INPUT_HEIGHT = 640
-
 log_prefix = typer.style(">", dim=True)
 
 print(f"{log_prefix} Loading models")
