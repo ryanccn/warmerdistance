@@ -71,10 +71,7 @@ def process_frame(frame):
         if pred[4].item() < 0.2:
             continue
 
-        center = (
-            round((pred[0].item() + pred[2].item()) / 2),
-            round((pred[1].item() + pred[3].item()) / 2),
-        )
+        center = (round((pred[0].item() + pred[2].item()) / 2), round(pred[3].item()))
 
         some_centers.append(center)
 
